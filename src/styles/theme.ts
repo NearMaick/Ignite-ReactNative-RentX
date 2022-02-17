@@ -27,6 +27,8 @@ export default {
       main: "#e1e1e8",
       dark: "#29292e",
     },
+
+    line: "#EBEBF0",
   },
 
   fonts: {
