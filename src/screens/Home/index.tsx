@@ -3,8 +3,11 @@ import { CarsList, Container, Header, TotalCars } from "./styles";
 import Logo from "../../assets/logo.svg";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Car } from "../../components/Car";
+import { useNavigation } from "@react-navigation/native";
 
 export function Home() {
+  const { navigate } = useNavigation();
+
   const carData = [
     {
       id: "1",
@@ -29,6 +32,10 @@ export function Home() {
     },
   ];
 
+  function handleCarDetails() {
+    navigate("CarDetails");
+  }
+
   return (
     <Container>
       <StatusBar
@@ -44,7 +51,9 @@ export function Home() {
       <CarsList
         data={carData}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Car data={item} />}
+        renderItem={({ item }) => (
+          <Car data={item} onPress={handleCarDetails} />
+        )}
       />
     </Container>
   );
