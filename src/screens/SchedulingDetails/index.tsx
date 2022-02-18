@@ -43,17 +43,20 @@ import { useNavigation } from "@react-navigation/native";
 
 export function SchedulingDetails() {
   const theme = useTheme();
+  const { navigate, goBack } = useNavigation();
 
-  const { navigate } = useNavigation();
-
-  function handleConfirm() {
+  function handleConfirmRental() {
     navigate("SchedulingComplete");
+  }
+
+  function handleBack() {
+    goBack();
   }
 
   return (
     <Container>
       <Header>
-        <BackButton onPress={() => {}} />
+        <BackButton onPress={handleBack} />
       </Header>
 
       <CarImages>
@@ -125,7 +128,7 @@ export function SchedulingDetails() {
         <Button
           title="Alugar agora"
           color={theme.colors.success}
-          onPress={handleConfirm}
+          onPress={handleConfirmRental}
         />
       </Footer>
     </Container>

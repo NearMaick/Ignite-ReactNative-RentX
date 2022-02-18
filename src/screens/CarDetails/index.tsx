@@ -34,7 +34,7 @@ export function CarDetails() {
   const { car } = params as IParams;
 
   function handleConfirmRental() {
-    navigate("Scheduling");
+    navigate("Scheduling", { car });
   }
 
   function handleBack() {
