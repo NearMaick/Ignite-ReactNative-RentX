@@ -1,4 +1,4 @@
-export interface CarDTO {
+export interface ICarDTO {
   id: string;
   brand: string;
   name: string;

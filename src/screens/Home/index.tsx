@@ -7,17 +7,26 @@ import { useNavigation } from "@react-navigation/native";
 
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
-import { CarDTO } from "../../dtos/CarDTO";
+import { ICarDTO } from "../../dtos/CarDTO";
 import { Load } from "../../components/Load";
 
-export function Home() {
-  const { navigate } = useNavigation();
+interface INavigationProps {
+  navigate: (
+    screen: string,
+    carObject: {
+      car: ICarDTO;
+    }
+  ) => void;
+}
 
-  const [cars, setCars] = useState<CarDTO[]>([]);
+export function Home() {
+  const { navigate } = useNavigation<INavigationProps>();
+
+  const [cars, setCars] = useState<ICarDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
-  function handleCarDetails() {
-    navigate("CarDetails");
+  function handleCarDetails(car: ICarDTO) {
+    navigate("CarDetails", { car });
   }
 
   async function fetchCars() {
@@ -52,9 +61,14 @@ export function Home() {
       ) : (
         <CarsList
           data={cars}
-          keyExtractor={(item: CarDTO) => item.id}
+          keyExtractor={(item: ICarDTO) => item.id}
           renderItem={({ item }) => (
-            <Car data={item} onPress={handleCarDetails} />
+            <Car
+              data={item}
+              onPress={() => {
+                handleCarDetails(item);
+              }}
+            />
           )}
         />
       )}
