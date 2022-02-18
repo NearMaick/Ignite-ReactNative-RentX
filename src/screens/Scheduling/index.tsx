@@ -15,10 +15,23 @@ import {
 
 import ArrowSvg from "../../assets/arrow.svg";
 import { Button } from "../../components/Button";
-import { Calendar } from "../../components/Calendar";
+import {
+  Calendar,
+  generateInterval,
+  IDayProps,
+  IMarkedDateProps,
+} from "../../components/Calendar";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 
 export function Scheduling() {
+  const [lastSelectedDate, setLastSelectedDate] = useState<IDayProps>(
+    {} as IDayProps
+  );
+
+  const [markedDates, setMarkedDates] = useState<IMarkedDateProps>(
+    {} as IMarkedDateProps
+  );
   const theme = useTheme();
 
   const { goBack } = useNavigation();
@@ -31,6 +44,21 @@ export function Scheduling() {
 
   function handleConfirmRental() {
     navigate("SchedulingDetails");
+  }
+
+  function handleChangeDate(date: IDayProps) {
+    let start = !lastSelectedDate.timestamp ? date : lastSelectedDate;
+    let end = date;
+
+    if (start.timestamp > end.timestamp) {
+      start = end;
+      end = start;
+    }
+
+    setLastSelectedDate(end);
+
+    const interval = generateInterval(start, end);
+    setMarkedDates(interval);
   }
 
   return (
@@ -63,7 +91,7 @@ export function Scheduling() {
       </Header>
 
       <Content>
-        <Calendar />
+        <Calendar markedDates={markedDates} onDayPress={handleChangeDate} />
       </Content>
       <Footer>
         <Button title="Confirmar" onPress={handleConfirmRental} />
