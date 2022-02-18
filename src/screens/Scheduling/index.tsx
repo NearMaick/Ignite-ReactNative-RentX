@@ -21,6 +21,12 @@ import { useNavigation } from "@react-navigation/native";
 export function Scheduling() {
   const theme = useTheme();
 
+  const { goBack } = useNavigation();
+
+  function handleBack() {
+    goBack();
+  }
+
   const { navigate } = useNavigation();
 
   function handleConfirmRental() {
@@ -35,7 +41,7 @@ export function Scheduling() {
           backgroundColor="transparent"
           translucent
         />
-        <BackButton onPress={() => {}} color={theme.colors.shape.main} />
+        <BackButton onPress={handleBack} color={theme.colors.shape.main} />
 
         <Title>
           Escolha uma {"\n"} data de início e {"\n"} fim do aluguel
