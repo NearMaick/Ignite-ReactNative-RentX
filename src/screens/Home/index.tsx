@@ -5,36 +5,36 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Car } from "../../components/Car";
 import { useNavigation } from "@react-navigation/native";
 
+import { api } from "../../services/api";
+import { useEffect, useState } from "react";
+import { CarDTO } from "../../dtos/CarDTO";
+import { Load } from "../../components/Load";
+
 export function Home() {
   const { navigate } = useNavigation();
 
-  const carData = [
-    {
-      id: "1",
-      brand: "Audi",
-      name: "RS 5 Coupé",
-      rent: {
-        period: "ao dia",
-        price: 120,
-      },
-      thumbnail: "https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png",
-    },
-    {
-      id: "2",
-      brand: "Porche",
-      name: "Panamera",
-      rent: {
-        period: "ao dia",
-        price: 120,
-      },
-      thumbnail:
-        "https://www.pngkit.com/png/full/237-2375888_porche-panamera-s.png",
-    },
-  ];
+  const [cars, setCars] = useState<CarDTO[]>([]);
+  const [loading, setLoading] = useState(true);
 
   function handleCarDetails() {
     navigate("CarDetails");
   }
+
+  async function fetchCars() {
+    try {
+      setLoading(true);
+      const response = await api.get("/cars");
+      setCars(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchCars();
+  }, []);
 
   return (
     <Container>
@@ -47,14 +47,17 @@ export function Home() {
         <Logo width={RFValue(108)} height={RFValue(12)} />
         <TotalCars>Total de 12 carros</TotalCars>
       </Header>
-
-      <CarsList
-        data={carData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Car data={item} onPress={handleCarDetails} />
-        )}
-      />
+      {loading ? (
+        <Load />
+      ) : (
+        <CarsList
+          data={cars}
+          keyExtractor={(item: CarDTO) => item.id}
+          renderItem={({ item }) => (
+            <Car data={item} onPress={handleCarDetails} />
+          )}
+        />
+      )}
     </Container>
   );
 }
