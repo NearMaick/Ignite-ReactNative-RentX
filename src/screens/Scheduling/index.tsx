@@ -1,6 +1,6 @@
 import { useTheme } from "styled-components";
 import { BackButton } from "../../components/BackButton";
-import { Alert, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import {
   Container,
   Header,
@@ -57,14 +57,10 @@ export function Scheduling() {
   }
 
   function handleConfirmRental() {
-    if (!rentalPeriod.startFormatted || !rentalPeriod.endFormatted) {
-      Alert.alert("OPS!", "Selecione o intervalo para alugar...");
-    } else {
-      navigate("SchedulingDetails", {
-        car,
-        dates: Object.keys(markedDates),
-      });
-    }
+    navigate("SchedulingDetails", {
+      car,
+      dates: Object.keys(markedDates),
+    });
   }
 
   function handleChangeDate(date: IDayProps) {
@@ -130,7 +126,11 @@ export function Scheduling() {
         <Calendar markedDates={markedDates} onDayPress={handleChangeDate} />
       </Content>
       <Footer>
-        <Button title="Confirmar" onPress={handleConfirmRental} />
+        <Button
+          title="Confirmar"
+          onPress={handleConfirmRental}
+          enabled={!!rentalPeriod.endFormatted}
+        />
       </Footer>
     </Container>
   );
