@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet } from "react-native";
+import { BackHandler, StatusBar, StyleSheet } from "react-native";
 import { CarsList, Container, Header, TotalCars } from "./styles";
 import Logo from "../../assets/logo.svg";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -85,7 +85,14 @@ export function Home() {
     }
   }
 
+  function preventBackButtonToSplash() {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
+  }
+
   useEffect(() => {
+    preventBackButtonToSplash();
     fetchCars();
   }, []);
 
@@ -98,7 +105,7 @@ export function Home() {
       />
       <Header>
         <Logo width={RFValue(108)} height={RFValue(12)} />
-        <TotalCars>Total de {cars.length} carros</TotalCars>
+        {!loading && <TotalCars>Total de {cars.length} carros</TotalCars>}
       </Header>
       {loading ? (
         <Load />
