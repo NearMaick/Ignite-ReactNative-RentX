@@ -1,4 +1,3 @@
-import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
 
 import {
