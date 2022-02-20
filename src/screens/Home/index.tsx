@@ -21,6 +21,7 @@ import { ICarDTO } from "../../dtos/CarDTO";
 import { Load } from "../../components/Load";
 import { useTheme } from "styled-components";
 import { PanGestureHandler, RectButton } from "react-native-gesture-handler";
+import { LoadAnimation } from "../../components/LoadAnimation";
 
 interface INavigationProps {
   navigate: (
@@ -108,7 +109,7 @@ export function Home() {
         {!loading && <TotalCars>Total de {cars.length} carros</TotalCars>}
       </Header>
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <CarsList
           data={cars}
