@@ -8,6 +8,7 @@ interface IProps {
   onPress: () => void;
   enabled?: boolean;
   loading?: boolean;
+  light?: boolean;
 }
 
 export function Button({
@@ -16,6 +17,7 @@ export function Button({
   onPress,
   enabled = true,
   loading = false,
+  light = false,
   ...rest
 }: IProps) {
   const theme = useTheme();
@@ -31,7 +33,7 @@ export function Button({
       {loading ? (
         <ActivityIndicator color={theme.colors.shape.main} />
       ) : (
-        <Title>{title}</Title>
+        <Title light={light}>{title}</Title>
       )}
     </Container>
   );
