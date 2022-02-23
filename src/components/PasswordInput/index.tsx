@@ -10,7 +10,7 @@ interface IProps extends TextInputProps {
 }
 
 export function PasswordInput({ iconName, ...rest }: IProps) {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
   const theme = useTheme();
 
