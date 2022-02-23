@@ -25,8 +25,8 @@ export function Input({ iconName, value, ...rest }: IProps) {
   }
 
   return (
-    <Container isFocused={isFocused}>
-      <IconContainer>
+    <Container>
+      <IconContainer isFocused={isFocused}>
         <Feather
           name={iconName}
           size={24}
@@ -41,6 +41,7 @@ export function Input({ iconName, value, ...rest }: IProps) {
       <InputText
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        isFocused={isFocused}
         {...rest}
       />
     </Container>
