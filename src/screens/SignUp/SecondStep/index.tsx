@@ -1,5 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
-import { Keyboard, KeyboardAvoidingView } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useState } from "react";
+import { Alert, Keyboard, KeyboardAvoidingView } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 import { BackButton } from "../../../components/BackButton";
@@ -16,12 +17,37 @@ import {
   Title,
 } from "./styles";
 
+interface IParams {
+  user: {
+    name: string;
+    email: string;
+    driverLicense: string;
+  };
+}
+
 export function SignUpSecondStep() {
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
   const { goBack } = useNavigation();
+  const { params } = useRoute();
+
   const theme = useTheme();
+
+  const { user } = params as IParams;
 
   function handleBack() {
     goBack();
+  }
+
+  function handleRegister() {
+    if (!password || !passwordConfirm) {
+      return Alert.alert("Informe a senha e a confirmação");
+    }
+
+    if (password != passwordConfirm) {
+      return Alert.alert("As senhas não são iguais");
+    }
   }
 
   return (
@@ -41,11 +67,23 @@ export function SignUpSecondStep() {
 
           <Form>
             <FormTitle>2. Senha</FormTitle>
-            <PasswordInput iconName="lock" />
-            <PasswordInput iconName="lock" />
+            <PasswordInput
+              iconName="lock"
+              onChangeText={setPassword}
+              value={password}
+            />
+            <PasswordInput
+              iconName="lock"
+              onChangeText={setPasswordConfirm}
+              value={passwordConfirm}
+            />
           </Form>
 
-          <Button title="Cadastrar" color={theme.colors.success} />
+          <Button
+            title="Cadastrar"
+            color={theme.colors.success}
+            onPress={handleRegister}
+          />
         </Container>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

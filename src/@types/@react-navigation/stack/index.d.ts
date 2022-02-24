@@ -5,7 +5,13 @@ declare namespace ReactNavigation {
     SchedulingDetails: { car: CarDTO; dates: string[] };
     SchedulingComplete: undefined;
     SignUpFirstStep: undefined;
-    SignUpSecondStep: undefined;
+    SignUpSecondStep: {
+      user: {
+        name: string;
+        email: string;
+        driverLicense: string;
+      };
+    };
     MyCars: undefined;
     Splash: undefined;
   }
