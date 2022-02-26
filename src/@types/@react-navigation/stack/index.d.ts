@@ -12,6 +12,11 @@ declare namespace ReactNavigation {
         driverLicense: string;
       };
     };
+    Confirmation: {
+      title: string;
+      message: string;
+      nextScreenRoute: string;
+    };
     MyCars: undefined;
     Splash: undefined;
   }

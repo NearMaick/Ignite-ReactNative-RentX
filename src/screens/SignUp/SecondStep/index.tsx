@@ -29,7 +29,7 @@ export function SignUpSecondStep() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const { params } = useRoute();
 
   const theme = useTheme();
@@ -48,10 +48,16 @@ export function SignUpSecondStep() {
     if (password != passwordConfirm) {
       return Alert.alert("As senhas não são iguais");
     }
+
+    navigate("Confirmation", {
+      nextScreenRoute: "SignIn",
+      title: "Conta criada",
+      message: `Agora é só fazer login\ne aproveitar.`,
+    });
   }
 
   return (
-    <KeyboardAvoidingView behavior="position" enabled>
+    <KeyboardAvoidingView behavior='position' enabled>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
           <Header>
@@ -68,19 +74,19 @@ export function SignUpSecondStep() {
           <Form>
             <FormTitle>2. Senha</FormTitle>
             <PasswordInput
-              iconName="lock"
+              iconName='lock'
               onChangeText={setPassword}
               value={password}
             />
             <PasswordInput
-              iconName="lock"
+              iconName='lock'
               onChangeText={setPasswordConfirm}
               value={passwordConfirm}
             />
           </Form>
 
           <Button
-            title="Cadastrar"
+            title='Cadastrar'
             color={theme.colors.success}
             onPress={handleRegister}
           />

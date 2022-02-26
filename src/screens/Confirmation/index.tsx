@@ -4,39 +4,43 @@ import LogoSvg from "../../assets/logo_background_gray.svg";
 import DoneSvg from "../../assets/done.svg";
 import { StatusBar, useWindowDimensions } from "react-native";
 import { ConfirmButton } from "../../components/ConfirmButton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-export function SchedulingComplete() {
+interface IParams {
+  title: string;
+  message: string;
+  nextScreenRoute: undefined;
+}
+
+export function Confirmation() {
   const { width } = useWindowDimensions();
-
+  const { params } = useRoute();
   const { navigate } = useNavigation();
 
+  const { title, message, nextScreenRoute } = params as IParams;
+
   function handleConfirm() {
-    navigate("Home");
+    navigate(nextScreenRoute);
   }
 
   return (
     <Container>
       <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
+        barStyle='light-content'
+        backgroundColor='transparent'
         translucent
       />
       <LogoSvg width={width} />
 
       <Content>
         <DoneSvg />
-        <Title>Carro alugado!</Title>
+        <Title>{title}</Title>
 
-        <Message>
-          Agora você só precisa {"\n"}
-          até a concessionária da RENTX {"\n"}
-          pegar o seu automóvel.
-        </Message>
+        <Message>{message}</Message>
       </Content>
 
       <Footer>
-        <ConfirmButton title="OK" onPress={handleConfirm} />
+        <ConfirmButton title='OK' onPress={handleConfirm} />
       </Footer>
     </Container>
   );

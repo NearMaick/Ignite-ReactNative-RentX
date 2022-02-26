@@ -89,7 +89,13 @@ export function SchedulingDetails() {
         id: car.id,
         unavailable_dates,
       })
-      .then(() => navigate("SchedulingComplete"))
+      .then(() =>
+        navigate("Confirmation", {
+          nextScreenRoute: "Home",
+          title: "Carro alugado!",
+          message: `Agora só precisa ir\naté a agência da RENTX\npegar seu automóvel.`,
+        })
+      )
       .catch(() => {
         setLoading(false);
         Alert.alert("ERRO", "Não foi possível confirmar o agendamento!");
@@ -146,7 +152,7 @@ export function SchedulingDetails() {
         <RentalPeriod>
           <CalendarIcon>
             <Feather
-              name="calendar"
+              name='calendar'
               size={RFValue(24)}
               color={theme.colors.shape.main}
             />
@@ -158,7 +164,7 @@ export function SchedulingDetails() {
           </DateInfo>
 
           <Feather
-            name="chevron-right"
+            name='chevron-right'
             size={RFValue(24)}
             color={theme.colors.shape.main}
           />
@@ -180,7 +186,7 @@ export function SchedulingDetails() {
 
       <Footer>
         <Button
-          title="Alugar agora"
+          title='Alugar agora'
           color={theme.colors.success}
           onPress={handleConfirmRental}
           enabled={!loading}
