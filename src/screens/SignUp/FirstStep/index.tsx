@@ -18,7 +18,6 @@ import {
   Subtitle,
   Title,
 } from "./styles";
-import { useAuth } from "../../../hooks/auth";
 
 export function SignUpFirstStep() {
   const [name, setName] = useState("");
@@ -26,7 +25,6 @@ export function SignUpFirstStep() {
   const [driverLicense, setDriverLicense] = useState("");
 
   const { goBack, navigate } = useNavigation();
-  const { user } = useAuth();
 
   function handleBack() {
     goBack();

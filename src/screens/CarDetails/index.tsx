@@ -77,9 +77,9 @@ export function CarDetails() {
   return (
     <Container>
       <StatusBar
-        barStyle="dark-content"
+        barStyle='dark-content'
         translucent
-        backgroundColor="transparent"
+        backgroundColor='transparent'
       />
       <Animated.View
         style={[
@@ -88,8 +88,7 @@ export function CarDetails() {
           {
             backgroundColor: theme.colors.secondary.background,
           },
-        ]}
-      >
+        ]}>
         <Header>
           <BackButton onPress={handleBack} />
         </Header>
@@ -109,8 +108,7 @@ export function CarDetails() {
         }}
         showsVerticalScrollIndicator={false}
         onScroll={scrollHandler}
-        scrollEventThrottle={16}
-      >
+        scrollEventThrottle={16}>
         <Details>
           <Description>
             <Brand>{car.brand}</Brand>
@@ -118,8 +116,8 @@ export function CarDetails() {
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>R$ {car.rent.price}</Price>
+            <Period>{car.period}</Period>
+            <Price>R$ {car.price}</Price>
           </Rent>
         </Details>
 
@@ -138,7 +136,7 @@ export function CarDetails() {
 
       <Footer>
         <Button
-          title="Escolher período do aluguel"
+          title='Escolher período do aluguel'
           onPress={handleConfirmRental}
         />
       </Footer>

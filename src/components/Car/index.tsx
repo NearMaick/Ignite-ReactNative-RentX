@@ -30,8 +30,8 @@ export function Car({ data, ...rest }: IProps) {
 
         <About>
           <Rent>
-            <Period>{data.rent.period}</Period>
-            <Price>{`R$ ${data.rent.price}`}</Price>
+            <Period>{data.period}</Period>
+            <Price>{`R$ ${data.price}`}</Price>
           </Rent>
 
           <Type>
@@ -44,7 +44,7 @@ export function Car({ data, ...rest }: IProps) {
         source={{
           uri: data.thumbnail,
         }}
-        resizeMode="contain"
+        resizeMode='contain'
       />
     </Container>
   );
