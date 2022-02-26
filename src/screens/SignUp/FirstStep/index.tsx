@@ -18,6 +18,7 @@ import {
   Subtitle,
   Title,
 } from "./styles";
+import { useAuth } from "../../../hooks/auth";
 
 export function SignUpFirstStep() {
   const [name, setName] = useState("");
@@ -25,6 +26,7 @@ export function SignUpFirstStep() {
   const [driverLicense, setDriverLicense] = useState("");
 
   const { goBack, navigate } = useNavigation();
+  const { user } = useAuth();
 
   function handleBack() {
     goBack();
@@ -52,7 +54,7 @@ export function SignUpFirstStep() {
   }
 
   return (
-    <KeyboardAvoidingView behavior="position" enabled>
+    <KeyboardAvoidingView behavior='position' enabled>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
           <Header>
@@ -69,28 +71,28 @@ export function SignUpFirstStep() {
           <Form>
             <FormTitle>1. Dados</FormTitle>
             <Input
-              iconName="user"
-              placeholder="Nome"
+              iconName='user'
+              placeholder='Nome'
               onChangeText={setName}
               value={name}
             />
             <Input
-              iconName="mail"
-              placeholder="E-mail"
-              keyboardType="email-address"
+              iconName='mail'
+              placeholder='E-mail'
+              keyboardType='email-address'
               onChangeText={setEmail}
               value={email}
             />
             <Input
-              iconName="credit-card"
-              placeholder="CNH"
-              keyboardType="numeric"
+              iconName='credit-card'
+              placeholder='CNH'
+              keyboardType='numeric'
               onChangeText={setDriverLicense}
               value={driverLicense}
             />
           </Form>
 
-          <Button title="Próximo" onPress={handleNextStep} />
+          <Button title='Próximo' onPress={handleNextStep} />
         </Container>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

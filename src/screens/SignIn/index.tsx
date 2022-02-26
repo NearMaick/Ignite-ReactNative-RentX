@@ -8,10 +8,13 @@ import { Input } from "../../components/Input";
 import { PasswordInput } from "../../components/PasswordInput";
 import { Container, Header, Form, Subtitle, Title, Footer } from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 export function SignIn() {
   const theme = useTheme();
   const { navigate } = useNavigation();
+
+  const { signIn } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,9 +29,8 @@ export function SignIn() {
       });
 
       await schema.validate({ email, password });
+      signIn({ email, password });
       Alert.alert("Tudo certo");
-
-      //Todo Go Login
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert("Opa!", error.message);
@@ -46,12 +48,12 @@ export function SignIn() {
   }
 
   return (
-    <KeyboardAvoidingView behavior="position" enabled>
+    <KeyboardAvoidingView behavior='position' enabled>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
           <StatusBar
-            barStyle="dark-content"
-            backgroundColor="transparent"
+            barStyle='dark-content'
+            backgroundColor='transparent'
             translucent
           />
           <Header>
@@ -63,18 +65,18 @@ export function SignIn() {
 
           <Form>
             <Input
-              iconName="mail"
-              placeholder="E-mail"
-              keyboardType="email-address"
+              iconName='mail'
+              placeholder='E-mail'
+              keyboardType='email-address'
               autoCorrect={false}
-              autoCapitalize="none"
+              autoCapitalize='none'
               onChangeText={(value) => setEmail(value)}
               value={email}
             />
 
             <PasswordInput
-              iconName="lock"
-              placeholder="Senha"
+              iconName='lock'
+              placeholder='Senha'
               onChangeText={setPassword}
               value={password}
             />
@@ -82,13 +84,13 @@ export function SignIn() {
 
           <Footer>
             <Button
-              title="Login"
+              title='Login'
               onPress={handleSignIn}
               enabled
               loading={false}
             />
             <Button
-              title="Criar conta gratuita"
+              title='Criar conta gratuita'
               color={theme.colors.secondary.background}
               light
               onPress={handleNewAccount}
