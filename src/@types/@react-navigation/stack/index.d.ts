@@ -19,5 +19,6 @@ declare namespace ReactNavigation {
     };
     MyCars: undefined;
     Splash: undefined;
+    SignIn: undefined;
   }
 }
