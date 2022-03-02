@@ -34,20 +34,26 @@ export function Home() {
     navigate("CarDetails", { car });
   }
 
-  async function fetchCars() {
-    try {
-      setLoading(true);
-      const response = await api.get("/cars");
-      setCars(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
+    let isMounted = true;
+
+    async function fetchCars() {
+      try {
+        setLoading(true);
+        const response = await api.get("/cars");
+        isMounted && setCars(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        isMounted && setLoading(false);
+      }
+    }
+
     fetchCars();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
