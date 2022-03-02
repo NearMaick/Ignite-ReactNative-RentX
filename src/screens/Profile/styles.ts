@@ -1,7 +1,15 @@
-import { BorderlessButton, RectButton } from "react-native-gesture-handler";
+import {
+  BorderlessButton,
+  RectButton,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { RFValue } from "react-native-responsive-fontsize";
-import styled from "styled-components/native";
+import styled, { css } from "styled-components/native";
+
+interface IOptionProps {
+  active: boolean;
+}
 
 export const Container = styled.View`
   flex: 1;
@@ -62,4 +70,39 @@ export const PhotoButton = styled(RectButton)`
   position: absolute;
   bottom: 10px;
   right: 10px;
+`;
+
+export const Content = styled.View`
+  flex: 1;
+  padding: 0 24px;
+  margin-top: 122px;
+`;
+
+export const Options = styled.View`
+  border-bottom-width: 1px;
+  border-bottom-color: ${({ theme }) => theme.colors.line};
+
+  flex-direction: row;
+  justify-content: space-around;
+
+  margin-bottom: 24px;
+`;
+
+export const Option = styled(TouchableOpacity)<IOptionProps>`
+  padding-bottom: 14px;
+
+  ${({ active }) =>
+    active &&
+    css`
+      border-bottom-width: 3px;
+      border-bottom-color: ${({ theme }) => theme.colors.main.main};
+    `}
+`;
+
+export const OptionTitle = styled.Text<IOptionProps>`
+  font-size: ${RFValue(20)}px;
+  font-family: ${({ theme, active }) =>
+    active ? theme.fonts.secondary_600 : theme.fonts.secondary_500};
+  color: ${({ theme, active }) =>
+    active ? theme.colors.header : theme.colors.text.detail};
 `;
