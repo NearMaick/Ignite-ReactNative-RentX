@@ -10,8 +10,6 @@ import { Container, Header, Form, Subtitle, Title, Footer } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/auth";
 
-import { database } from "../../database";
-
 export function SignIn() {
   const theme = useTheme();
   const { navigate } = useNavigation();
@@ -48,15 +46,6 @@ export function SignIn() {
   function handleNewAccount() {
     navigate("SignUpFirstStep");
   }
-
-  useEffect(() => {
-    async function loadData() {
-      const usersCollection = database.get("users");
-      const user = await usersCollection.query().fetch();
-      console.log(user);
-    }
-    loadData();
-  }, []);
 
   return (
     <KeyboardAvoidingView behavior='position' enabled>
