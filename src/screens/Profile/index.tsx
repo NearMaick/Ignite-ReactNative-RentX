@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "styled-components";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import * as Yup from "yup";
 import { BackButton } from "../../components/BackButton";
 import {
   Container,
@@ -20,14 +21,15 @@ import {
 } from "./styles";
 import { useState } from "react";
 import { Input } from "../../components/Input";
-import { KeyboardAvoidingView } from "react-native";
+import { Alert, KeyboardAvoidingView } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { PasswordInput } from "../../components/PasswordInput";
 import { useAuth } from "../../hooks/auth";
+import { Button } from "../../components/Button";
 
 export function Profile() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, updatedUser } = useAuth();
 
   const [option, setOption] = useState<"dataEdit" | "passwordEdit">("dataEdit");
   const [avatar, setAvatar] = useState(user.avatar);
@@ -56,6 +58,40 @@ export function Profile() {
     if (result.cancelled) return;
 
     if (result.uri) setAvatar(result.uri);
+  }
+
+  async function handleProfileUpdate() {
+    try {
+      const schema = Yup.object().shape({
+        driverLicense: Yup.string().required("CNH é obrigatória"),
+        name: Yup.string().required("Nome é obrigatório"),
+      });
+
+      const data = {
+        name,
+        driverLicense,
+      };
+
+      await schema.validate(data);
+
+      await updatedUser({
+        id: user.id,
+        user_id: user.user_id,
+        email: user.email,
+        name,
+        driver_license: driverLicense,
+        avatar,
+        token: user.token,
+      });
+
+      Alert.alert("Perfil atualizado");
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert("Opa!", String(error));
+      } else {
+        Alert.alert("Não foi possível atualizar o perfil");
+      }
+    }
   }
 
   return (
@@ -105,7 +141,6 @@ export function Profile() {
                 </OptionTitle>
               </Option>
             </Options>
-
             {option === "dataEdit" ? (
               <Section>
                 <Input
@@ -135,6 +170,7 @@ export function Profile() {
                 <PasswordInput iconName='lock' placeholder='Repetir senha' />
               </Section>
             )}
+            <Button title='Salvar Alterações' onPress={handleProfileUpdate} />
           </Content>
         </Container>
       </TouchableWithoutFeedback>
