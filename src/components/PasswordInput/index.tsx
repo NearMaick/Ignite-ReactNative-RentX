@@ -48,9 +48,10 @@ export function PasswordInput({ iconName, value, ...rest }: IProps) {
       <InputText
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        {...rest}
         secureTextEntry={isPasswordVisible}
         isFocused={isFocused}
+        autoCorrect={false}
+        {...rest}
       />
 
       <BorderlessButton onPress={handlePasswordVisibilityChange}>
