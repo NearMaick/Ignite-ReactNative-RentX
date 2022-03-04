@@ -1,18 +1,14 @@
-import { StatusBar } from "react-native";
+import { Alert, StatusBar } from "react-native";
 import { CarsList, Container, Header, TotalCars } from "./styles";
 import Logo from "../../assets/logo.svg";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Car } from "../../components/Car";
 import { useNavigation } from "@react-navigation/native";
-
-import Animated from "react-native-reanimated";
-
-const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { ICarDTO } from "../../dtos/CarDTO";
-import { RectButton } from "react-native-gesture-handler";
 import { LoadAnimation } from "../../components/LoadAnimation";
 
 interface INavigationProps {
@@ -26,6 +22,7 @@ interface INavigationProps {
 
 export function Home() {
   const { navigate } = useNavigation<INavigationProps>();
+  const netInfo = useNetInfo();
 
   const [cars, setCars] = useState<ICarDTO[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,6 +52,14 @@ export function Home() {
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      Alert.alert("Está on");
+    } else {
+      Alert.alert("Está off");
+    }
+  }, [netInfo.isConnected]);
 
   return (
     <Container>
