@@ -29,6 +29,7 @@ interface IAuthContextData {
   signIn: (credentials: ISignInCredentials) => Promise<void>;
   signOut: () => void;
   updatedUser: (user: IUser) => Promise<void>;
+  loading: boolean;
 }
 
 interface IAuthProviderProps {
@@ -39,6 +40,7 @@ const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 function AuthProvider({ children }: IAuthProviderProps) {
   const [data, setData] = useState<IUser>({} as IUser);
+  const [loading, setLoading] = useState(true);
 
   async function signIn({ email, password }: ISignInCredentials) {
     try {
@@ -53,17 +55,19 @@ function AuthProvider({ children }: IAuthProviderProps) {
 
       const userCollection = database.get<ModelUser>("users");
       await database.write(async () => {
-        await userCollection.create((newUser) => {
-          newUser.user_id = user.id;
-          newUser.name = user.name;
-          newUser.email = user.email;
-          newUser.driver_license = user.driver_license;
-          newUser.avatar = user.avatar;
-          newUser.token = token;
+        const dataUser = await userCollection.create((newUser) => {
+          (newUser.user_id = user.id),
+            (newUser.name = user.name),
+            (newUser.email = user.email),
+            (newUser.driver_license = user.driver_license),
+            (newUser.avatar = user.avatar),
+            (newUser.token = token);
         });
-      });
 
-      setData({ ...user, token });
+        const userData = dataUser._raw as unknown as IUser;
+
+        setData(userData);
+      });
     } catch (error) {
       throw new Error(String(error));
     }
@@ -91,6 +95,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
       const userData = response[0]._raw as unknown as IUser;
       api.defaults.headers.common["Authorization"] = `Bearer ${userData.token}`;
       setData(userData);
+      setLoading(false);
     }
   }
 
@@ -123,6 +128,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
         signIn,
         signOut,
         updatedUser,
+        loading,
       }}>
       {children}
     </AuthContext.Provider>
