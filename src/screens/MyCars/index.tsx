@@ -1,10 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { FlatList, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { BackButton } from "../../components/BackButton";
 import { Car } from "../../components/Car";
-import { ICarDTO } from "../../dtos/CarDTO";
 import { Car as ModelCar } from "../../database/model/Car";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -27,14 +26,6 @@ import {
 import { LoadAnimation } from "../../components/LoadAnimation";
 import { format, parseISO } from "date-fns";
 
-interface ICarProps {
-  id: string;
-  user_id: string;
-  startDate: string;
-  endDate: string;
-  car: ICarDTO;
-}
-
 interface IDataProps {
   id: string;
   car: ModelCar;
@@ -45,6 +36,7 @@ interface IDataProps {
 export function MyCars() {
   const [cars, setCars] = useState<IDataProps[]>([]);
   const [loading, setLoading] = useState(true);
+  const screenIsFocus = useIsFocused();
 
   const theme = useTheme();
   const { goBack, navigate } = useNavigation();
@@ -74,7 +66,7 @@ export function MyCars() {
 
   useEffect(() => {
     fetchCars();
-  }, []);
+  }, [screenIsFocus]);
 
   return (
     <Container>
