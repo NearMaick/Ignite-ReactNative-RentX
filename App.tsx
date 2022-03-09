@@ -1,4 +1,5 @@
 import AppLoading from "expo-app-loading";
+import { LogBox } from "react-native";
 
 import {
   useFonts,
@@ -27,6 +28,10 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
 
   return (
     <ThemeProvider theme={theme}>
